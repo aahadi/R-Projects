@@ -40,7 +40,7 @@ content
 
 ## 1.2 Content classification using IAB-Taxonomy
 
-Here we use the IAB_Taxonomy, which is available in uClassify API services:
+Here we use the IAB_Taxonomy (read more about it here <https://www.meaningcloud.com/blog/iab-taxonomy-tier-4>), which is available in uClassify API services:
 
 ```{r pressure2}
 library(tidyverse)
@@ -66,7 +66,7 @@ data[199]
 
 
 # 2. O*NET Occupational Information
-The Occupational Information Network (**O*NET**) is a free online database that contains hundreds of job definitions to help students, job seekers, businesses and workforce development professionals to understand today's world of work in the United States. Here I demo how you can get information about an occupation from ONET APIs. We use Bioscientist as an occupation, and get updated information about this occupation from O*NET:
+The Occupational Information Network (**O*NET**) is a free online database that contains hundreds of job definitions to help students, job seekers, businesses and workforce development professionals to understand today's world of work in the United States (Read more about **O*NET** here <https://www.dol.gov/agencies/eta/onet>). Here I demo how you can get information about an occupation from ONET APIs. We use Bioscientist as an occupation, and get updated information about this occupation from O*NET:
 
 
 ```{r pressure4}
@@ -107,7 +107,6 @@ workActivities$name
 workActivities$description
 
 ```
-
 
 
 
