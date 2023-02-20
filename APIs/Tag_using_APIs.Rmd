@@ -12,20 +12,102 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## uClassifer
+# 1. Text analytics use cases
 
-**uClassifier** <http://rmarkdown.rstudio.com> is a bitch
+## 1.1 Sentiment analysis using uClassifer
 
-```{r cars}
-summary(cars)
+**uClassifier** <https://www.uclassify.com/> is a free machine learning web service where you can easily create and use text classifiers. Here is the code to perform sentiment analysis on a given text data, in this case simply a string: 
+
+
+```{r pressure}
+library(tidyverse)
+
+uClassifyURL = function(key, classifierName, text) {
+    text = gsub(" ", "+", text)
+    url = sprintf("https://api.uclassify.com/v1/uClassify/%s/classify/?readKey=%s&text=%s", classifierName, key, text)
+    return(url)
+  }
+  
+text = "I'm positive that my job search will lead me to the job that I truly deserve."
+url = uClassifyURL('iGwAytFWYvvZ', 'sentiment', text)
+raw = httr::GET(url)
+content = rawToChar(raw$content)
+content
+
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## 1.2 Content classification using IAB-Taxonomy
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+Here we use the IAB_Taxonomy, which is available in uClassify API services:
+
+```{r pressure2}
+library(tidyverse)
+
+uClassifyURL = function(key, classifierName, text) {
+    text = gsub(" ", "+", text)
+    url = sprintf("https://api.uclassify.com/v1/uClassify/%s/classify/?readKey=%s&text=%s", classifierName, key, text)
+    return(url)
+  }
+
+  
+text = "I'm positive that my job search will lead me to the job that I truly deserve."
+url = uClassifyURL('iGwAytFWYvvZ', 'IAB-Taxonomy-V2', text)
+raw = httr::GET(url)
+content = rawToChar(raw$content)
+
+
+data = rjson::fromJSON(content)
+data[199]
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+# 2. O*NET Occupational Information
+The Occupational Information Network (**O*NET**) is a free online database that contains hundreds of job definitions to help students, job seekers, businesses and workforce development professionals to understand today's world of work in the United States. Here I demo how you can get information about an occupation from ONET APIs. We use Bioscientist as an occupation, and get updated information about this occupation from O*NET:
+
+
+```{r pressure4}
+library(ONETr)
+setCreds("uts_edu_au","2393xyk")
+#Bioscientist: 15-2041.01
+Bioscientist <- socSearch("15-2041.01")
+
+skills <- skills(Bioscientist)
+skills$name
+skills$description
+
+abilities <- abilities(Bioscientist)
+abilities$name
+abilities$description
+
+knowledge <- knowledge(Bioscientist)
+knowledge$name
+knowledge$description
+
+tasks <- tasks(Bioscientist)
+tasks$statement
+
+education(Bioscientist)
+interests(Bioscientist)
+jobTitles(Bioscientist)
+
+technology <- technology(Bioscientist)
+technology$title.text
+technology$example.text
+
+tools <- tools(Bioscientist)
+tools$title.text
+tools$example
+
+workActivities <- workActivities(Bioscientist)
+workActivities$name
+workActivities$description
+
+```
+
+
+
+
